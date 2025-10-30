@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Lista{% endblock %}
+
+{% block content %}
+<main>
+  
+  <!--Sección de filtros -->
+  <div class="main">
+    {% block filtros %}
+    <!-- aquí meterás inputs, selects, botones -->
+    {% endblock %}
+  </div>
+
+  <!--Sección de contenido dinámico (tablas, tarjetas, etc.) -->
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        {% block tabla_head %}{% endblock %}
+      </thead>
+      <tbody>
+        {% block tabla_body %}{% endblock %}
+      </tbody>
+    </table>
+  </div>
+
+  <!--Bloque opcional para cosas debajo de la tabla -->
+  {% block extra_content %}{% endblock %}
+  
+</main>
+{% endblock %}

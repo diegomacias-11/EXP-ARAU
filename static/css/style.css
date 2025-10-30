@@ -1,0 +1,256 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+  --fuente-principal: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--fuente-principal);
+}
+
+/* Prevent layout overflow: include padding/border in element width */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body{
+    background-color: #ffffff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-x: hidden; /* avoid unwanted horizontal scrollbar */
+}
+
+.main-header{
+    background-color: #2b313f;
+    margin: 0;
+    font-weight: 900;
+    font-style: normal;
+    color: #d2dee3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    box-shadow: 0 4px 10px #000000;
+}
+
+.main-header h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* title container to keep logo/text from shrinking too small */
+.logo-title { flex: 0 0 auto; }
+.logo-title img { display: block; height: 32px; width: auto; }
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    font-weight: 700;
+    font-style: normal;
+    color: #d2dee3;
+    flex: 1 1 auto;            
+    min-width: 0;              
+    justify-content: center;
+    flex-wrap: wrap;           
+    overflow-x: auto;         
+}
+
+.main-nav a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    white-space: nowrap; 
+}
+
+.main-nav a:hover { color: #59b9c7; }
+
+@media (max-width: 480px) {
+  .main-header h1 { font-size: 1rem; }
+  .main-nav { gap: 0.5rem; flex-basis: 100%; }
+  .main-nav a { padding: 0.25rem 0.4rem; font-size: 0.85rem; }
+}
+
+main{
+    margin: .5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.filter-container{
+    width: 100%;
+    background-color: #59b9c7;
+    color: #2b313f;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-style: normal;
+    border-radius:6px;
+    text-align: center;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    max-width: 100%;
+    box-shadow: 0 4px 10px #000000;
+    }
+
+.filter-container a{
+    color: inherit;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    white-space: nowrap; 
+}
+
+.filter-container a:hover { color: #d2dee3; }
+
+.table-container {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #aebed2;
+    border-radius: 6px;
+    overflow: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.table-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #808b98;
+    border-radius: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #294369;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #aebed2;
+    padding: 0.3rem;
+    text-align: center;
+}
+
+.table th {
+    background: rgb(206, 212, 218);
+    text-align: center;
+    color: #2b313f;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 0.85rem;
+}
+
+.table td{
+    font-weight: 500;
+    font-style: normal;
+    font-size: 0.75rem;
+}
+
+/* Placeholders to match template classes */
+
+/* removed .lista-container */
+
+.form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;          /* centra el formulario dentro del contenedor */
+    justify-content: center;      /* centra verticalmente el contenedor */
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    border: 1px solid #aebed2;
+    border-radius: 6px;
+    padding: 1.5rem 2rem;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px #0000001a;
+}
+
+/* Centrado y separaciÃ³n homogÃ©nea de los campos dentro del formulario */
+.form-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;          /* centra labels/inputs horizontalmente */
+    gap: 0.5rem;                  /* pequeÃ±a separaciÃ³n entre todos los elementos */
+}
+
+.form-container label {
+    color: #003b71;
+    font-weight: 600;
+    font-size: 0.85rem;
+    align-self: center;           /* centra el label */
+    text-align: center;           /* centra el texto del label */
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;                  /* ðŸ‘ˆ ajusta al ancho del form, no del 50% */
+    max-width: 400px;}             /* ðŸ‘ˆ opcional: limita los campos */
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    outline: none;
+    border-color: #003b71;
+    box-shadow: 0 0 4px rgba(0, 59, 113, 0.4);
+}
+
+.btn-submit, .btn-detalle {
+  background-color: #59b9c7;
+    border: none;
+    color: inherit;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.btn-submit:hover, .btn-detalle:hover {
+  color: #d2dee3;
+}
+
+/* Form styles: normalized and overriding earlier rules */
+.form-container label {
+  color: #2b313f;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #aebed2;
+  border-radius: 6px;
+  font-family: var(--fuente-principal);
+  font-size: 0.9rem;
+  color: #2b313f;
+  background-color: #ffffff;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+  outline: none;
+  border-color: #59b9c7;
+  box-shadow: 0 0 0 3px rgba(89, 185, 199, 0.25);
+}
+
+/* Button tweaks */
+.btn-submit { cursor: pointer; }

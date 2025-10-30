@@ -1,0 +1,26 @@
+{% extends "form.html" %}
+
+{% block title %}Nuevo Cliente{% endblock %}
+
+{% block form_fields %}
+  {% for field in form %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+    {% if field.errors %}
+      <div class="error">{{ field.errors }}</div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
+{% block extra_actions %}
+  {% if form.instance.pk %}
+    <button type="submit"
+            class="btn-submit"
+            style="background-color:#c73b3b; margin-top:.5rem;"
+            formmethod="post"
+            formnovalidate
+            formaction="{% url 'eliminar_cliente' form.instance.pk %}">
+      Eliminar
+    </button>
+  {% endif %}
+{% endblock %}
