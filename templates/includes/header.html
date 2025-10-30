@@ -4,9 +4,14 @@
     <img src="{% static 'img/logo_header.png' %}" alt="ARAU" class="logo" />
   </div>
   <nav class="main-nav">
-    <a href="#">Inicio</a>
-    <a href="#">Clientes</a>
-    <a href="#">Eventos</a>
-    <a href="#">Encuestas</a>
+    {% if is_cliente %}
+      <a href="#">Inicio</a>
+      <a href="{% url 'eventos_lista' %}">Eventos</a>
+    {% else %}
+      <a href="#">Inicio</a>
+      <a href="{% url 'clientes_lista' %}">Clientes</a>
+      <a href="{% url 'eventos_lista' %}">Eventos</a>
+      <a href="#">Encuestas</a>
+    {% endif %}
   </nav>
 </header>

@@ -4,7 +4,7 @@
 
 {% block filtros %}
   <div class="filter-container">
-    <a href="{% url 'agregar_cliente' %}"> Nuevo cliente</a>
+    <a href="{% url 'agregar_cliente' %}?next={{ request.get_full_path|urlencode }}"> Nuevo cliente</a>
   </div>
 {% endblock %}
 
@@ -31,7 +31,7 @@
       <td>{{ c.num_contacto }}</td>
       <td>{{ c.correo }}</td>
       <td>{{ c.fecha_registro|date:"d/m/Y H:i" }}</td>
-      <td><a href="{% url 'editar_cliente' c.id %}" class="btn-detalle">Detalle</a></td>
+      <td><a href="{% url 'editar_cliente' c.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Detalle</a></td>
     </tr>
   {% empty %}
     <tr>

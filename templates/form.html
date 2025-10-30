@@ -5,9 +5,7 @@
 
 {% block content %}
   <main>
-  <div class="filter-container">
-    <a href="{% url 'clientes_lista' %}">Volver</a>
-  </div>
+  {% block back_link %}{% endblock %}
 
   <div class="form-container">
     <form method="post">

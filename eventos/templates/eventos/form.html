@@ -1,6 +1,6 @@
 {% extends "form.html" %}
 
-{% block title %}Nuevo Cliente{% endblock %}
+{% block title %}{{ form.instance.pk|yesno:"Editar Evento,Nuevo Evento" }}{% endblock %}
 
 {% block back_link %}
   <div class="filter-container">
@@ -20,14 +20,14 @@
 {% endblock %}
 
 {% block extra_actions %}
-  {% if form.instance.pk %}
+  {% if form.instance.pk and puede_eliminar %}
     <input type="hidden" name="next" value="{{ back_url }}" />
     <button type="submit"
             class="btn-submit"
             style="background-color:#c73b3b; margin-top:.5rem;"
             formmethod="post"
             formnovalidate
-            formaction="{% url 'eliminar_cliente' form.instance.pk %}">
+            formaction="{% url 'eliminar_evento' form.instance.pk %}">
       Eliminar
     </button>
   {% endif %}

@@ -1,0 +1,37 @@
+{% extends "lista.html" %}
+
+{% block title %}Eventos{% endblock %}
+
+{% block filtros %}
+  <div class="filter-container">
+    <a href="{% url 'agregar_evento' %}?next={{ request.get_full_path|urlencode }}"> Nuevo evento</a>
+  </div>
+{% endblock %}
+
+{% block tabla_head %}
+  <tr>
+    <th>Cliente</th>
+    <th>Nombre</th>
+    <th>Teléfono</th>
+    <th>Ticket</th>
+    <th>Fecha registro</th>
+    <th>Acciones</th>
+  </tr>
+{% endblock %}
+
+{% block tabla_body %}
+  {% for e in eventos %}
+    <tr>
+      <td>{{ e.cliente.get_full_name|default:e.cliente.username }}</td>
+      <td>{{ e.nombre }}</td>
+      <td>{{ e.telefono }}</td>
+      <td>{{ e.ticket }}</td>
+      <td>{{ e.fecha_registro|date:"d/m/Y H:i" }}</td>
+      <td><a href="{% url 'editar_evento' e.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Detalle</a></td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="100%" style="text-align:center;">Sin eventos registrados</td>
+    </tr>
+  {% endfor %}
+{% endblock %}
