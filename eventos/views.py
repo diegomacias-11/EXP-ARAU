@@ -9,9 +9,25 @@ def lista_eventos(request):
     else:
         eventos = Evento.objects.select_related("cliente").all()
 
+    # Filtros por fecha (GET)
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+    if fecha_desde:
+        try:
+            eventos = eventos.filter(fecha_registro__date__gte=fecha_desde)
+        except Exception:
+            pass
+    if fecha_hasta:
+        try:
+            eventos = eventos.filter(fecha_registro__date__lte=fecha_hasta)
+        except Exception:
+            pass
+
     return render(request, "eventos/lista.html", {
         "eventos": eventos,
         'is_cliente': request.user.groups.filter(name='Cliente').exists(),
+        'fecha_desde': fecha_desde or '',
+        'fecha_hasta': fecha_hasta or '',
     })
 
 def agregar_evento(request):

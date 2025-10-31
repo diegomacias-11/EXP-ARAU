@@ -1,10 +1,21 @@
-{% extends "lista.html" %}
+﻿{% extends "lista.html" %}
+{% load humanize %}
 
 {% block title %}Eventos{% endblock %}
 
 {% block filtros %}
   <div class="filter-container">
-    <a href="{% url 'agregar_evento' %}?next={{ request.get_full_path|urlencode }}"> Nuevo evento</a>
+    <form method="get">
+      <label for="fecha_desde">Desde:</label>
+      <input type="date" name="fecha_desde" id="fecha_desde" value="{{ fecha_desde }}"
+             />
+      <label for="fecha_hasta">Hasta:</label>
+      <input type="date" name="fecha_hasta" id="fecha_hasta" value="{{ fecha_hasta }}"
+             />
+      <button type="submit" class="btn-filter">Filtrar</button>
+      <a href="{% url 'eventos_lista' %}" class="btn-filter">Limpiar</a>
+    </form>
+    <a href="{% url 'agregar_evento' %}?next={{ request.get_full_path|urlencode }}" class="btn-primary">Nuevo evento</a>
   </div>
 {% endblock %}
 
@@ -25,13 +36,17 @@
       <td>{{ e.cliente.get_full_name|default:e.cliente.username }}</td>
       <td>{{ e.nombre }}</td>
       <td>{{ e.telefono }}</td>
-      <td>{{ e.ticket }}</td>
+      <td>$ {{ e.ticket|floatformat:2|intcomma }}</td>
       <td>{{ e.fecha_registro|date:"d/m/Y H:i" }}</td>
       <td><a href="{% url 'editar_evento' e.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Detalle</a></td>
     </tr>
   {% empty %}
     <tr>
-      <td colspan="100%" style="text-align:center;">Sin eventos registrados</td>
+      <td colspan="100%">Sin eventos registrados</td>
     </tr>
   {% endfor %}
 {% endblock %}
+
+
+
+

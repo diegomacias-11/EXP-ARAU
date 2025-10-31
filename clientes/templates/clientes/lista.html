@@ -1,10 +1,27 @@
-{% extends "lista.html" %}
+﻿{% extends "lista.html" %}
 
 {% block title %}Clientes{% endblock %}
 
 {% block filtros %}
   <div class="filter-container">
-    <a href="{% url 'agregar_cliente' %}?next={{ request.get_full_path|urlencode }}"> Nuevo cliente</a>
+    <form method="get">
+      <label for="agente">Agente:</label>
+      <select name="agente" id="agente">
+        <option value="">Todos</option>
+        {% for a in agentes %}
+          <option value="{{ a.agente_id }}" {% if agente_selected == a.agente_id|stringformat:'s' %}selected{% endif %}>
+            {% if a.agente__first_name or a.agente__last_name %}
+              {{ a.agente__first_name }} {{ a.agente__last_name }}
+            {% else %}
+              {{ a.agente__username }}
+            {% endif %}
+          </option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn-filter">Filtrar</button>
+      <a href="{% url 'clientes_lista' %}" class="btn-filter">Limpiar</a>
+    </form>
+    <a href="{% url 'agregar_cliente' %}?next={{ request.get_full_path|urlencode }}" class="btn-primary">Nuevo cliente</a>
   </div>
 {% endblock %}
 
@@ -35,7 +52,11 @@
     </tr>
   {% empty %}
     <tr>
-      <td colspan="100%" style="text-align:center;">Sin clientes registrados</td>
+      <td colspan="100%">Sin clientes registrados</td>
     </tr>
   {% endfor %}
 {% endblock %}
+
+
+
+

@@ -6,10 +6,24 @@ from django.contrib.auth.models import User
 
 def lista_clientes(request):
     clientes = Cliente.objects.select_related("agente").all()
+    # Filtro por agente (GET)
+    agente_id = request.GET.get('agente')
+    if agente_id:
+        try:
+            clientes = clientes.filter(agente_id=int(agente_id))
+        except ValueError:
+            pass
+    # Opciones de agentes existentes en clientes
+    agentes = (Cliente.objects
+               .select_related('agente')
+               .values('agente_id', 'agente__first_name', 'agente__last_name', 'agente__username')
+               .distinct())
 
     return render(request, "clientes/lista.html", {
         'clientes': clientes,
         'is_cliente': request.user.groups.filter(name='Cliente').exists(),
+        'agentes': agentes,
+        'agente_selected': agente_id or '',
     })
 
 def agregar_cliente(request):

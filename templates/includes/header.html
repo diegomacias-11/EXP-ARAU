@@ -14,4 +14,17 @@
       <a href="#">Encuestas</a>
     {% endif %}
   </nav>
+  <div class="user-card">
+    <div class="user-name">
+      {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}
+    </div>
+    <div class="user-row">
+      <div class="user-group">
+        {% for g in user.groups.all %}{{ g.name }}{% if not forloop.last %}, {% endif %}{% empty %}Sin grupo{% endfor %}
+      </div>
+      <a href="#" class="user-logout" title="Cerrar sesión">
+        <img src="{% static 'img/logout.png' %}" alt="Cerrar sesión" class="logout-icon" />
+      </a>
+    </div>
+  </div>
 </header>
