@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reportes{% endblock %}
+
+{% block content %}
+  <section class="filter-container" style="margin-top: .5rem;">
+    <form id="form-filtros">
+      <label for="cliente_id">Cliente</label>
+      <select id="cliente_id" name="cliente_id">
+        <option value="">Seleccione cliente…</option>
+        {% for c in clientes %}
+          {% if c.usuario_asociado %}
+            <option value="{{ c.id }}">{{ c.cliente }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+
+      <label for="fecha_desde">Fecha desde</label>
+      <input type="date" id="fecha_desde" name="fecha_desde" />
+
+      <label for="fecha_hasta">Fecha hasta</label>
+      <input type="date" id="fecha_hasta" name="fecha_hasta" />
+
+      <button type="submit" class="btn-filter">Filtrar</button>
+      <a href="#" id="btn-limpiar" class="btn-filter">Limpiar</a>
+      <button type="button" id="btn-print" class="btn-primary" style="margin-left:.5rem;">Imprimir</button>
+    </form>
+  </section>
+  <!-- Encabezado solo para impresión -->
+  <section id="print-header" style="display:none; margin-top:.5rem;">
+    <div style="text-align:center; color:#2b313f;">
+      <div id="ph-title" style="font-weight:700; font-size:1.2rem;"></div>
+      <div id="ph-subtitle" style="font-size:.95rem;"></div>
+    </div>
+  </section>
+
+  <!-- KPIs básicos -->
+  <section id="kpi" style="display:none; margin: .25rem 0 1rem 0;">
+    <div class="user-card" style="display:flex; flex-direction:row; align-items:center; gap:1rem;">
+      <div style="display:flex; flex-wrap:wrap; gap:1rem; align-items:center;">
+        <div style="color:#2b313f; font-weight:700;">Eventos: <span id="kpi_num" style="color:#003b71; font-weight:700;">0</span></div>
+        <div style="color:#2b313f; font-weight:700;">Ticket promedio: <span id="kpi_avg_ticket" style="color:#003b71; font-weight:700;">—</span></div>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:1rem; align-items:center;">
+        <div style="color:#2b313f; font-weight:700;">Total: <span id="kpi_total" style="color:#003b71; font-weight:700;">$0.00</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabla de eventos -->
+
+  <section id="msg-seleccione" style="text-align:center; color:#2b313f; font-weight:600;">
+    Seleccione un cliente para ver reportes.
+  </section>
+
+  <section id="charts" style="display:none;">
+    <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+      <div style="flex:1 1 420px; min-width:320px;">
+        <canvas id="chart_eventos" style="width:100%; height:340px"></canvas>
+      </div>
+      <div style="flex:1 1 420px; min-width:320px;">
+        <canvas id="chart_encuestas" style="width:100%; height:340px"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gráficas por pregunta -->
+  <section id="per_pregunta" style="display:none; margin-top:1rem;">
+    <div style="font-weight:700; color:#2b313f; margin-bottom:0.5rem;">Respuestas por pregunta</div>
+    <div id="preguntas-charts" style="display:flex; flex-wrap:wrap; gap:1rem;"></div>
+  </section>
+
+  
+
+  
+
+  <section id="eventos_qas" style="display:none; margin-top:1rem;">
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Evento</th>
+            <th>Teléfono</th>
+            <th>Ticket</th>
+            <th>Fecha</th>
+            <th>Preguntas y respuestas</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-eventos"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <script>
+    window.REPORTES_DATA_URL = "{% url 'reportes_data' %}";
+  </script>
+  <script src="{% static 'js/reportes.js' %}"></script>
+{% endblock %}

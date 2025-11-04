@@ -1,0 +1,98 @@
+{% extends "form.html" %}
+{% load static %}
+
+{% block title %}Encuesta{% endblock %}
+
+{% block back_link %}
+  <div class="filter-container">
+    <a href="{{ back_url }}">Volver</a>
+  </div>
+{% endblock %}
+
+{% block form_fields %}
+  <h2>Encuesta</h2>
+  {% if msg %}
+    <div class="filter-container" style="margin:.25rem 0; color:#2b313f; font-weight:600;">{{ msg }}</div>
+  {% endif %}
+  <button type="submit" style="display:none" aria-hidden="true"></button>
+
+  {% if preguntas %}
+    <div class="table-container" style="overflow-x:auto;">
+      <table class="table" style="min-width:1000px;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Texto</th>
+            <th>Tipo</th>
+            <th>Opciones (una por línea)</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in preguntas %}
+          <tr>
+            <td>{{ p.orden }}</td>
+            <td>
+              <input type="text" name="texto" value="{{ p.texto }}"
+                     formmethod="post" formaction="{% url 'configurar_encuesta' cliente.id %}"
+                     style="width:100%;" />
+            </td>
+            <td>
+              <select name="tipo" formmethod="post" formaction="{% url 'configurar_encuesta' cliente.id %}">
+                <option value="texto" {% if p.tipo == 'texto' %}selected{% endif %}>Texto libre</option>
+                <option value="opciones" {% if p.tipo == 'opciones' %}selected{% endif %}>Opciones</option>
+              </select>
+            </td>
+            <td>
+              <textarea name="opciones" rows="2" placeholder="Una opción por línea"
+                        formmethod="post" formaction="{% url 'configurar_encuesta' cliente.id %}"
+                        style="width:100%;">{% if p.tipo == 'opciones' %}{{ p.opciones }}{% endif %}</textarea>
+            </td>
+            <td>
+              <button type="submit" name="edit_id" value="{{ p.id }}" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"
+                      formmethod="post" formaction="{% url 'configurar_encuesta' cliente.id %}">Guardar</button>
+              <button type="submit" class="btn-trash" title="Eliminar"
+                      formmethod="post" formnovalidate
+                      formaction="{% url 'eliminar_pregunta' cliente.id p.id %}">
+                <img src="{% static 'img/trash_logo.png' %}" alt="Eliminar" class="trash-icon" />
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>No hay preguntas registradas todavía.</p>
+  {% endif %}
+
+  <label for="texto">Nueva pregunta</label>
+  <input type="text" name="texto" id="texto" placeholder="Escribe una nueva pregunta..." required>
+
+  <div class="table-container" style="margin-top:.25rem;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Opciones (una por línea)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <select name="tipo" id="tipo">
+              <option value="texto">Texto libre</option>
+              <option value="opciones">Opciones (desplegable)</option>
+            </select>
+          </td>
+          <td>
+            <textarea name="opciones" id="opciones" rows="2" style="width:100%;"
+                      placeholder="Una opción por línea (si eliges opciones)"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <input type="hidden" name="next" value="{{ request.path }}" />
+{% endblock %}

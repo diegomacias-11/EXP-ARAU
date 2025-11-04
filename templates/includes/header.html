@@ -6,12 +6,16 @@
   <nav class="main-nav">
     {% if is_cliente %}
       <a href="#">Inicio</a>
-      <a href="{% url 'eventos_lista' %}">Eventos</a>
+      <a href="{% url 'eventos_lista' %}"
+         class="{% if 'eventos' in request.path and 'reportes' not in request.path %}active{% endif %}">Eventos</a>
     {% else %}
       <a href="#">Inicio</a>
-      <a href="{% url 'clientes_lista' %}">Clientes</a>
-      <a href="{% url 'eventos_lista' %}">Eventos</a>
-      <a href="#">Encuestas</a>
+      <a href="{% url 'clientes_lista' %}"
+         class="{% if 'clientes' in request.path %}active{% endif %}">Clientes</a>
+      <a href="{% url 'eventos_lista' %}"
+         class="{% if 'eventos' in request.path and 'reportes' not in request.path %}active{% endif %}">Eventos</a>
+      <a href="{% url 'reportes_dashboard' %}"
+         class="{% if 'reportes' in request.path %}active{% endif %}">Reportes</a>
     {% endif %}
   </nav>
   <div class="user-card">

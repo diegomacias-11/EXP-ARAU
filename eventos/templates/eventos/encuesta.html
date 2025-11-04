@@ -1,0 +1,40 @@
+{% extends "form.html" %}
+{% load static %}
+
+{% block title %}Encuesta{% endblock %}
+
+{% block back_link %}
+  <div class="filter-container">
+    <a href="{{ back_url }}">Volver</a>
+  </div>
+{% endblock %}
+
+{% block form_fields %}
+  {% if cliente %}
+    <p style="margin:0 0 .5rem 0; color:#2b313f;">Cliente: <strong>{{ cliente.cliente }}</strong></p>
+  {% endif %}
+
+  {% if preguntas %}
+    <ul>
+      {% for p in preguntas %}
+        <li>
+          <label for="respuesta_{{ p.id }}">{{ p.orden }}. {{ p.texto }}</label>
+          {% if p.tipo == 'opciones' and p.opciones_list %}
+            <select id="respuesta_{{ p.id }}" name="respuesta_{{ p.id }}" style="max-width:600px;">
+              <option value="">Seleccione...</option>
+              {% for opt in p.opciones_list %}
+                <option value="{{ opt }}" {% if p.respuesta == opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="text" id="respuesta_{{ p.id }}" name="respuesta_{{ p.id }}" value="{{ p.respuesta }}" style="width:100%; max-width:600px;" />
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No hay preguntas registradas todavía.</p>
+  {% endif %}
+
+  <input type="hidden" name="next" value="{{ back_url }}" />
+{% endblock %}

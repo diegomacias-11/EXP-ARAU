@@ -43,12 +43,15 @@
     <tr>
       <td>{{ c.cliente }}</td>
       <td>{{ c.agente.get_full_name|default:c.agente.username }}</td>
-      <td>{{ c.num_eventos}}</td>
+      <td>{{ c.num_eventos }}</td>
       <td>{{ c.contacto }}</td>
       <td>{{ c.num_contacto }}</td>
       <td>{{ c.correo }}</td>
       <td>{{ c.fecha_registro|date:"d/m/Y H:i" }}</td>
-      <td><a href="{% url 'editar_cliente' c.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Detalle</a></td>
+      <td>
+        <a href="{% url 'editar_cliente' c.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Detalle</a>
+        <a href="{% url 'configurar_encuesta' c.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Encuesta</a>
+      </td>
     </tr>
   {% empty %}
     <tr>
@@ -56,7 +59,3 @@
     </tr>
   {% endfor %}
 {% endblock %}
-
-
-
-

@@ -13,9 +13,11 @@
       <input type="date" name="fecha_hasta" id="fecha_hasta" value="{{ fecha_hasta }}"
              />
       <button type="submit" class="btn-filter">Filtrar</button>
-      <a href="{% url 'eventos_lista' %}" class="btn-filter">Limpiar</a>
+    <a href="{% url 'eventos_lista' %}" class="btn-filter">Limpiar</a>
     </form>
-    <a href="{% url 'agregar_evento' %}?next={{ request.get_full_path|urlencode }}" class="btn-primary">Nuevo evento</a>
+    {% if not is_agente %}
+      <a href="{% url 'agregar_evento' %}?next={{ request.get_full_path|urlencode }}" class="btn-primary">Nuevo evento</a>
+    {% endif %}
   </div>
 {% endblock %}
 
@@ -38,7 +40,15 @@
       <td>{{ e.telefono }}</td>
       <td>$ {{ e.ticket|floatformat:2|intcomma }}</td>
       <td>{{ e.fecha_registro|date:"d/m/Y H:i" }}</td>
-      <td><a href="{% url 'editar_evento' e.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Detalle</a></td>
+      <td>
+        <a href="{% url 'editar_evento' e.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Detalle</a>
+        {% if is_agente %}
+          <a href="{% url 'eventos_encuesta' e.id %}?next={{ request.get_full_path|urlencode }}" class="btn-detalle">Encuesta</a>
+          <input type="checkbox" disabled title="Tiene respuestas"
+                 style="vertical-align:middle; margin-left:.25rem;"
+                 {% if e.encuesta and e.encuesta.respuestas.all %}checked{% endif %} />
+        {% endif %}
+      </td>
     </tr>
   {% empty %}
     <tr>
